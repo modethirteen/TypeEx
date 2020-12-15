@@ -1,5 +1,5 @@
 {
-  "name": "modethirteen/modethirteen.php",
+  "name": "modethirteen/type-ex",
   "description": "A collection of useful behavior extensions for PHP",
   "type": "library",
   "license": "Apache-2.0",
@@ -11,7 +11,7 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/modethirteen/modethirteen.php/issues"
+    "issues": "https://github.com/modethirteen/TypeEx/issues"
   },
   "require": {
     "php": ">=7.4.12"
@@ -22,12 +22,12 @@
   },
   "autoload": {
     "psr-4": {
-      "modethirteen\\": ["src/"]
+      "modethirteen\\TypeEx\\": ["src/"]
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "modethirteen\\Tests\\": ["tests/"]
+      "modethirteen\\TypeEx\\Tests\\": ["tests/"]
     }
   }
 }

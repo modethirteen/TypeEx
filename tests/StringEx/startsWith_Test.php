@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace modethirteen\Tests\StringEx;
+namespace modethirteen\TypeEx\Tests\StringEx;
 
-use modethirteen\StringEx;
+use modethirteen\TypeEx\StringEx;
 use PHPUnit\Framework\TestCase;
 
 class startsWith_Test extends TestCase  {
@@ -27,7 +27,7 @@ class startsWith_Test extends TestCase  {
     public function String_starts_with() : void {
 
         // act
-        $result = StringEx::startsWith('foobar', 'foo');
+        $result = (new StringEx('foobar'))->startsWith('foo');
 
         // assert
         static::assertEquals(true, $result);
@@ -39,7 +39,7 @@ class startsWith_Test extends TestCase  {
     public function String_does_start_with() : void {
 
         // act
-        $result = StringEx::startsWith('foobar', 'gak');
+        $result = (new StringEx('foobar'))->startsWith('gak');
 
         // assert
         static::assertEquals(false, $result);
@@ -51,7 +51,7 @@ class startsWith_Test extends TestCase  {
     public function Case_is_strict_when_checking_starts_with() : void {
 
         // act
-        $result = StringEx::startsWith('foobar', 'FOO');
+        $result = (new StringEx('foobar'))->startsWith('FOO');
 
         // assert
         static::assertEquals(false, $result);

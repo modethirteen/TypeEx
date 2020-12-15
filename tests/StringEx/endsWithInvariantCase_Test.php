@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace modethirteen\Tests\StringEx;
+namespace modethirteen\TypeEx\Tests\StringEx;
 
-use modethirteen\StringEx;
+use modethirteen\TypeEx\StringEx;
 use PHPUnit\Framework\TestCase;
 
 class endsWithInvariantCase_Test extends TestCase {
@@ -24,10 +24,10 @@ class endsWithInvariantCase_Test extends TestCase {
     /**
      * @test
      */
-    public function String_starts_with() {
+    public function String_ends_with() {
 
         // act
-        $result = StringEx::endsWithInvariantCase('FOObAR', 'bar');
+        $result = (new StringEx('FOObAr'))->endsWithInvariantCase('bar');
 
         // assert
         static::assertEquals(true, $result);
@@ -36,10 +36,10 @@ class endsWithInvariantCase_Test extends TestCase {
     /**
      * @test
      */
-    public function String_does_not_start_with() {
+    public function String_does_not_end_with() {
 
         // act
-        $result = StringEx::endsWithInvariantCase('foobar', 'gak');
+        $result = (new StringEx('foobar'))->endsWithInvariantCase('gak');
 
         // assert
         static::assertEquals(false, $result);

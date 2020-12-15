@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace modethirteen\Tests\StringEx;
+namespace modethirteen\TypeEx\Tests\StringEx;
 
-use modethirteen\StringEx;
+use modethirteen\TypeEx\StringEx;
 use PHPUnit\Framework\TestCase;
 
 class isNullOrEmpty_Test extends TestCase {

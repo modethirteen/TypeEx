@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace modethirteen;
+namespace modethirteen\TypeEx;
 
 use Closure;
 
@@ -26,50 +26,11 @@ use Closure;
 class StringEx {
 
     /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
-    public static function endsWith(string $haystack, string $needle) : bool {
-        $length = strlen($needle);
-        $start = $length * -1;
-        return (substr($haystack, $start) === $needle);
-    }
-
-     /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
-    public static function endsWithInvariantCase(string $haystack, string $needle) : bool {
-        return self::endsWith(strtolower($haystack), strtolower($needle));
-    }
-
-    /**
      * @param string|null $string
      * @return bool
      */
     public static function isNullOrEmpty(?string $string) : bool {
         return $string === null || $string === '';
-    }
-
-    /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
-    public static function startsWith(string $haystack, string $needle) : bool {
-        $length = strlen($needle);
-        return (substr($haystack, 0, $length) === $needle);
-    }
-
-    /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
-    public static function startsWithInvariantCase(string $haystack, string $needle) : bool {
-        return self::startsWith(strtolower($haystack), strtolower($needle));
     }
 
     /**
@@ -97,5 +58,70 @@ class StringEx {
             return self::stringify($value());
         }
         return strval($value);
+    }
+
+    /**
+     * @param string $haystack
+     * @param string $needle
+     * @return bool
+     */
+    private static function endsWithHelper(string $haystack, string $needle) : bool {
+        $length = strlen($needle);
+        $start = $length * -1;
+        return (substr($haystack, $start) === $needle);
+    }
+
+    /**
+     * @param string $haystack
+     * @param string $needle
+     * @return bool
+     */
+    public static function startsWithHelper(string $haystack, string $needle) : bool {
+        $length = strlen($needle);
+        return (substr($haystack, 0, $length) === $needle);
+    }
+
+    /**
+     * @var string
+     */
+    private string $string;
+
+    /**
+     * @param string $string
+     */
+    public function __construct(string $string) {
+        $this->string = $string;
+    }
+
+    /**
+     * @param string $needle
+     * @return bool
+     */
+    public function endsWith(string $needle) : bool {
+        return self::endsWithHelper($this->string, $needle);
+    }
+
+     /**
+     * @param string $needle
+     * @return bool
+     */
+    public function endsWithInvariantCase(string $needle) : bool {
+        return self::endsWithHelper(strtolower($this->string), strtolower($needle));
+    }
+
+    /**
+     * @param string $needle
+     * @return bool
+     */
+    public function startsWith(string $needle) : bool {
+        return self::startsWithHelper($this->string, $needle);
+    }
+
+    /**
+     * @param string $needle
+     * @return bool
+     */
+    public function startsWithInvariantCase(string $needle) : bool {
+        return self::startsWithHelper(strtolower($this->string), strtolower($needle));
     }
 }

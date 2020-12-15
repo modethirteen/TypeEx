@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace modethirteen\Tests\StringUtil;
+namespace modethirteen\TypeEx\Tests\StringEx;
 
-use modethirteen\StringEx;
+use modethirteen\TypeEx\StringEx;
 use PHPUnit\Framework\TestCase;
 
 class endsWith_Test extends TestCase  {
@@ -27,7 +27,7 @@ class endsWith_Test extends TestCase  {
     public function String_ends_with() : void {
 
         // act
-        $result = StringEx::endsWith('foobar', 'ar');
+        $result = (new StringEx('foobar'))->endsWith('ar');
 
         // assert
         static::assertEquals(true, $result);
@@ -39,7 +39,7 @@ class endsWith_Test extends TestCase  {
     public function String_does_not_end_with() : void {
 
         // act
-        $result = StringEx::endsWith('foobar', 'gak');
+        $result = (new StringEx('foobar'))->endsWith('gak');
 
         // assert
         static::assertEquals(false, $result);
