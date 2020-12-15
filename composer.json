@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "modethirteen/type-ex",
+=======
+  "name": "modethirteen/type-extensions",
+>>>>>>> a66d45515c18a7a2525c3033728d29863b0c26bb
   "description": "A collection of useful behavior extensions for PHP",
   "type": "library",
   "license": "Apache-2.0",
