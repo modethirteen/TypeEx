@@ -1,0 +1,33 @@
+{
+  "name": "modethirteen/modethirteen.php",
+  "description": "A collection of useful utilities and extensions for PHP",
+  "type": "library",
+  "license": "Apache-2.0",
+  "authors" : [
+    {
+      "name": "James Andrew Vaughn",
+      "email": "jamesvaughn@modethirteen.com",
+      "role": "maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/modethirteen/modethirteen.php/issues"
+  },
+  "require": {
+    "php": ">=7.4.12"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "~0.12.57",
+    "phpunit/phpunit": "~9.4.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "modethirteen\\": ["src/"]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "modethirteen\\Tests\\": ["tests/"]
+    }
+  }
+}
