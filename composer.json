@@ -1,6 +1,6 @@
 {
   "name": "modethirteen/modethirteen.php",
-  "description": "A collection of useful utilities and extensions for PHP",
+  "description": "A collection of useful behavior extensions for PHP",
   "type": "library",
   "license": "Apache-2.0",
   "authors" : [

@@ -1,2 +1,3 @@
-# modethirteen.php
-A collection of useful utilities and extensions for PHP
+# TypeExtensions
+
+A collection of useful behavior extensions for PHP
