@@ -30,6 +30,7 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-php-
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
@@ -37,6 +38,6 @@ jobs:
         run: vendor/bin/phpstan analyse
 
       - name: Run test suite
-        run: vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-clover=coverage.xml
+        run: phpdbg -qrr vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-clover=coverage.xml
 
       - uses: codecov/codecov-action@v1
