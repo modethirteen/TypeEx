@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * modethirteen.php
+ * TypeEx
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,6 +91,24 @@ class StringEx {
      */
     public function __construct(string $string) {
         $this->string = $string;
+    }
+
+    /**
+     * @note when comparing a string array, returns true if one or more values match
+     * @param string|string[] $needle
+     * @return bool
+     */
+    public function contains($needle) : bool {
+        if(is_array($needle)) {
+            foreach($needle as $n) {
+                $pos = strpos($this->string, self::stringify($n));
+                if($pos !== false) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return strpos($this->string, self::stringify($needle)) !== false;
     }
 
     /**
