@@ -18,11 +18,6 @@ namespace modethirteen\TypeEx;
 
 use Closure;
 
-/**
- * Class StringEx
- *
- * @package modethirteen
- */
 class StringEx {
 
     /**
@@ -89,8 +84,15 @@ class StringEx {
     /**
      * @param string $string
      */
-    public function __construct(string $string) {
+    final public function __construct(string $string) {
         $this->string = $string;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() : string {
+        return $this->toString();
     }
 
     /**
@@ -112,6 +114,22 @@ class StringEx {
     }
 
     /**
+     * @param int $max
+     * @return static
+     */
+    public function ellipsis(int $max = 100) : object {
+        $string = $this->string;
+        if(strlen($string) <= $max) {
+            return new static($string);
+        }
+        $result = substr($string, 0, $max);
+        $string = (strpos($string, ' ') === false)
+            ? $result . '…'
+            : preg_replace('/\w+$/', '', $result) . '…';
+        return new static($string);
+    }
+
+    /**
      * @param string $needle
      * @return bool
      */
@@ -125,6 +143,44 @@ class StringEx {
      */
     public function endsWithInvariantCase(string $needle) : bool {
         return self::endsWithHelper(strtolower($this->string), strtolower($needle));
+    }
+
+    /**
+     * @param string $prefix
+     * @return static
+     */
+    public function removePrefix(string $prefix) : object {
+        $string = $this->string;
+        return new static(
+            (substr($string, 0, strlen($prefix)) === $prefix)
+                ? substr($string, strlen($prefix), strlen($string))
+                : $string
+        );
+    }
+
+    /**
+     * Replace variables surrounded with {{ }}
+     *
+     * @param IStringDictionary $replacements - collection of variables to their string values - ex: ['variable' => 'value']
+     * @return static
+     */
+    public function template(IStringDictionary $replacements) : object {
+        $string = $this->string;
+        $keys = $replacements->getKeys();
+        if(empty($keys)) {
+            return new static($string);
+        }
+        $search = array_map(function(string $var) : string {
+            return '{{' . trim($var) . '}}';
+        }, $keys);
+        return new static(str_replace($search, array_values($replacements->toArray()), $string));
+    }
+
+    /**
+     * @return string
+     */
+    public function toString() : string {
+        return $this->string;
     }
 
     /**

@@ -8,5 +8,9 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <file>src/IDictionary.php</file>
+            <file>src/IStringDictionary.php</file>
+        </exclude>
     </coverage>
 </phpunit>
