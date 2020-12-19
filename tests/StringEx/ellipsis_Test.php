@@ -35,7 +35,9 @@ class ellipsis_Test extends TestCase {
             ['They\'re playing the piano while flying in the plane', 5, 'They\'…'],
             ['In the end, he realized he could see sound and hear words', 57, 'In the end, he realized he could see sound and hear words'],
             ['He created a pig burger out of beef', 34, 'He created a pig burger out of …'],
-            ['abcdefghijklmnopqrstuvwxyz', 20, 'abcdefghijklmnopqrst…']
+            ['abcdefghijklmnopqrstuvwxyz', 20, 'abcdefghijklmnopqrst…'],
+            ['frank baz jesse plugh xyzzy', 20, 'frank baz jesse …'],
+            ['frank baz jesse plugh xyzzy', 25, 'frank baz jesse plugh …']
         ];
     }
 

@@ -17,6 +17,7 @@
 namespace modethirteen\TypeEx\Tests;
 
 use modethirteen\TypeEx\Dictionary;
+use modethirteen\TypeEx\Exception\InvalidDictionaryValueException;
 use modethirteen\TypeEx\StringEx;
 use PHPUnit\Framework\TestCase;
 
@@ -42,6 +43,7 @@ class Dictionary_Test extends TestCase  {
      * @dataProvider values_expected_Provider
      * @test
      * @param array<string, mixed> $values
+     * @throws InvalidDictionaryValueException
      */
     public function Can_build_dictionary(array $values) : void {
 
@@ -66,5 +68,39 @@ class Dictionary_Test extends TestCase  {
         static::assertEquals(array_filter($values, function($value) {
             return $value !== null;
         }), $result->toArray());
+    }
+
+    /**
+     * @test
+     * @throws InvalidDictionaryValueException
+     */
+    public function Can_set_valid_dictionary_value() : void {
+
+        // arrange
+        $dictionary = new Dictionary(function($value) : bool {
+            return $value === 'foo';
+        });
+
+        // act
+        $dictionary->set('bar', 'foo');
+
+        // assert
+        static::assertEquals('foo', $dictionary->get('bar'));
+    }
+
+    /**
+     * @test
+     * @throws InvalidDictionaryValueException
+     */
+    public function Cannot_set_invalid_dictionary_value() : void {
+
+        // arrange
+        static::expectException(InvalidDictionaryValueException::class);
+        $dictionary = new Dictionary(function($value) : bool {
+            return is_int($value);
+        });
+
+        // act
+        $dictionary->set('bar', 'foo');
     }
 }

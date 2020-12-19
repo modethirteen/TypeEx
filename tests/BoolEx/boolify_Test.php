@@ -66,7 +66,6 @@ class boolify_Test extends TestCase {
         $result = BoolEx::boolify($value);
 
         // assert
-        var_dump($value);
         static::assertEquals($expected, $result);
     }
 }

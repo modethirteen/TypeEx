@@ -71,7 +71,7 @@ class StringEx {
      * @param string $needle
      * @return bool
      */
-    public static function startsWithHelper(string $haystack, string $needle) : bool {
+    private static function startsWithHelper(string $haystack, string $needle) : bool {
         $length = strlen($needle);
         return (substr($haystack, 0, $length) === $needle);
     }
@@ -174,6 +174,13 @@ class StringEx {
             return '{{' . trim($var) . '}}';
         }, $keys);
         return new static(str_replace($search, array_values($replacements->toArray()), $string));
+    }
+
+    /**
+     * @return static
+     */
+    public function trim() : object {
+        return new static(trim($this->string));
     }
 
     /**

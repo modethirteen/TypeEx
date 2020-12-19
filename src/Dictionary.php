@@ -16,6 +16,9 @@
  */
 namespace modethirteen\TypeEx;
 
+use Closure;
+use modethirteen\TypeEx\Exception\InvalidDictionaryValueException;
+
 class Dictionary implements IDictionary {
 
     /**
@@ -32,6 +35,18 @@ class Dictionary implements IDictionary {
      * @var string[] - list of keys in the map
      */
     private $keys = [];
+
+    /**
+     * @var Closure|null
+     */
+    private $validator = null;
+
+    /**
+     * @param Closure|null $validator - <$validator($value) : bool> - optionally check if value is allowed in dictionary
+     */
+    public function __construct(?Closure $validator = null) {
+        $this->validator = $validator;
+    }
 
     /**
      * @return mixed - IDictionary can return any value type
@@ -63,10 +78,20 @@ class Dictionary implements IDictionary {
         $this->key = reset($this->keys);
     }
 
+    /**
+     * {@inheritDoc}
+     * @throws InvalidDictionaryValueException
+     */
     public function set(string $key, $value) : void {
         if($value === null) {
             unset($this->data[$key]);
         } else {
+            if($this->validator !== null) {
+                $validator = $this->validator;
+                if(!$validator($value)) {
+                    throw new InvalidDictionaryValueException($value);
+                }
+            }
             $this->data[$key] = $value;
         }
         $this->keys = array_keys($this->data);
