@@ -16,7 +16,6 @@
  */
 namespace modethirteen\TypeEx\Tests;
 
-use modethirteen\TypeEx\Dictionary;
 use modethirteen\TypeEx\StringDictionary;
 use modethirteen\TypeEx\StringEx;
 use PHPUnit\Framework\TestCase;

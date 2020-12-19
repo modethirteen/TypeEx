@@ -29,7 +29,7 @@ class StringEx {
     }
 
     /**
-     * Stringify any value
+     * Convert any value to string
      *
      * @param mixed $value
      * @return string
@@ -79,7 +79,7 @@ class StringEx {
     /**
      * @var string
      */
-    private string $string;
+    private $string;
 
     /**
      * @param string $string

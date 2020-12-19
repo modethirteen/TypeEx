@@ -21,7 +21,7 @@ class Dictionary implements IDictionary {
     /**
      * @var array
      */
-    private array $data = [];
+    private $data = [];
 
     /**
      * @var mixed - current key
@@ -31,7 +31,7 @@ class Dictionary implements IDictionary {
     /**
      * @var string[] - list of keys in the map
      */
-    private array $keys = [];
+    private $keys = [];
 
     /**
      * @return mixed - IDictionary can return any value type

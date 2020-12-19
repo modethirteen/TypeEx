@@ -9,6 +9,7 @@ A collection of useful behavior extensions for PHP
 
 ## Requirements
 
+* PHP 7.2, 7.3, 7.4 (1.x)
 * PHP 7.4 (main)
 
 ## Installation
