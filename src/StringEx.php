@@ -79,7 +79,7 @@ class StringEx {
     /**
      * @var string
      */
-    private $string;
+    private string $string;
 
     /**
      * @param string $string

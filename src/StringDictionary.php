@@ -21,7 +21,7 @@ class StringDictionary implements IStringDictionary {
     /**
      * @var string[]
      */
-    private $data = [];
+    private array $data = [];
 
     /**
      * @var mixed - current key
@@ -31,7 +31,7 @@ class StringDictionary implements IStringDictionary {
     /**
      * @var string[] - list of keys in the map
      */
-    private $keys = [];
+    private array $keys = [];
 
     public function current() : string {
         return $this->data[$this->key];

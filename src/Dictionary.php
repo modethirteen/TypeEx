@@ -24,7 +24,7 @@ class Dictionary implements IDictionary {
     /**
      * @var array
      */
-    private $data = [];
+    private array $data = [];
 
     /**
      * @var mixed - current key
@@ -34,12 +34,12 @@ class Dictionary implements IDictionary {
     /**
      * @var string[] - list of keys in the map
      */
-    private $keys = [];
+    private array $keys = [];
 
     /**
      * @var Closure|null
      */
-    private $validator = null;
+    private ?Closure $validator;
 
     /**
      * @param Closure|null $validator - <$validator($value) : bool> - optionally check if value is allowed in dictionary
