@@ -1,10 +1,16 @@
-<phpunit bootstrap="_bootstrap.php" backupGlobals="false" processIsolation="false">
-    <testsuite name="Tests">
-        <directory>tests</directory>
-    </testsuite>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+<phpunit bootstrap="_bootstrap.php">
+    <testsuites>
+        <testsuite name="Tests">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <coverage processUncoveredFiles="true">
+        <include>
             <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
+        </include>
+        <exclude>
+            <file>src/IDictionary.php</file>
+            <file>src/IStringDictionary.php</file>
+        </exclude>
+    </coverage>
 </phpunit>
