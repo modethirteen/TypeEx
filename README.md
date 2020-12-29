@@ -114,6 +114,11 @@ StringEx::stringify(new class { function __toString() : string { return 'qux'; }
 (new StringEx('foo bar'))->startsWith('qux'); // false
 (new StringEx('foo bar'))->startsWithInvariantCase('FOO'); // true
 
+// check if a string equals value
+(new StringEx('foo bar'))->equals('foo bar'); // true
+(new StringEx('foo bar'))->equals('foo BAR'); // false
+(new StringEx('foo bar'))->equalsInvariantCase('foo BAR'); // true
+
 // an immutable string manipulation API for removing, trimming, and templating
 $replacements = new StringDictionary();
 $replacements->set('bar', 'frank');
@@ -126,6 +131,10 @@ $string = (new StringEx('foo {{bar}} baz {{qux}} plugh xyzzy'))
 // trimming and adding ellipsis attempts to break on words    
 $string->ellipsis(20)->toString(); // 'frank baz jesse …'
 $string->ellipsis(25)->toString(); // 'frank baz jesse plugh …'
+
+// base64 encoding and decoding
+(new StringEx('foo bar baz qux'))->encodeBase64()->toString(); // 'Zm9vIGJhciBiYXogcXV4'
+(new StringEx('Zm9vIGJhciBiYXogcXV4'))->decodeBase64()->toString(); // 'foo bar baz qux'
 ```
 
 ### BoolEx

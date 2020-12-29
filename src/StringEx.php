@@ -17,6 +17,7 @@
 namespace modethirteen\TypeEx;
 
 use Closure;
+use modethirteen\TypeEx\Exception\StringExCannotDecodeBase64StringException;
 
 class StringEx {
 
@@ -130,6 +131,13 @@ class StringEx {
     }
 
     /**
+     * @return static
+     */
+    public function encodeBase64() : object {
+        return new static(base64_encode($this->string));
+    }
+
+    /**
      * @param string $needle
      * @return bool
      */
@@ -143,6 +151,39 @@ class StringEx {
      */
     public function endsWithInvariantCase(string $needle) : bool {
         return self::endsWithHelper(strtolower($this->string), strtolower($needle));
+    }
+
+    /**
+     * @param bool $strict - if true, will throw if string contains non-base64 encoding characters
+     * @return static
+     * @throws StringExCannotDecodeBase64StringException
+     */
+    public function decodeBase64(bool $strict = false) : object {
+        $result = base64_decode($this->string, $strict);
+        if($result === false) {
+            throw new StringExCannotDecodeBase64StringException($this->string);
+        }
+        return new static($result);
+    }
+
+    /**
+     * Case sensitive string comparison
+     *
+     * @param string $string
+     * @return bool
+     */
+    public function equals(string $string) : bool {
+        return $this->string === $string;
+    }
+
+    /**
+     * Case insensitive string comparison
+     *
+     * @param string $string
+     * @return bool
+     */
+    public function equalsInvariantCase(string $string) : bool {
+        return strtolower($this->string) === strtolower($string);
     }
 
     /**

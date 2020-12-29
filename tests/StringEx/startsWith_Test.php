@@ -36,7 +36,7 @@ class startsWith_Test extends TestCase  {
     /**
      * @test
      */
-    public function String_does_start_with() : void {
+    public function String_does_not_start_with() : void {
 
         // act
         $result = (new StringEx('foobar'))->startsWith('gak');
@@ -48,7 +48,7 @@ class startsWith_Test extends TestCase  {
     /**
      * @test
      */
-    public function Case_is_strict_when_checking_starts_with() : void {
+    public function String_does_not_start_with_case() : void {
 
         // act
         $result = (new StringEx('foobar'))->startsWith('FOO');

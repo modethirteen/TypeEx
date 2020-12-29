@@ -44,4 +44,16 @@ class endsWith_Test extends TestCase  {
         // assert
         static::assertEquals(false, $result);
     }
+
+    /**
+     * @test
+     */
+    public function String_does_not_end_with_case() : void {
+
+        // act
+        $result = (new StringEx('foobar'))->endsWith('BAR');
+
+        // assert
+        static::assertEquals(false, $result);
+    }
 }
