@@ -135,6 +135,7 @@ $string->ellipsis(25)->toString(); // 'frank baz jesse plugh …'
 // base64 encoding and decoding
 (new StringEx('foo bar baz qux'))->encodeBase64()->toString(); // 'Zm9vIGJhciBiYXogcXV4'
 (new StringEx('Zm9vIGJhciBiYXogcXV4'))->decodeBase64()->toString(); // 'foo bar baz qux'
+(new StringEx('🐇🐇🐇'))->decodeBase64(true)->toString(); // throws StringExCannotDecodeBase64StringException
 ```
 
 ### BoolEx
