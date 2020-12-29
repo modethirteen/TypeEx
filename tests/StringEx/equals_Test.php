@@ -19,15 +19,15 @@ namespace modethirteen\TypeEx\Tests\StringEx;
 use modethirteen\TypeEx\StringEx;
 use PHPUnit\Framework\TestCase;
 
-class endsWithInvariantCase_Test extends TestCase {
+class equals_Test extends TestCase  {
 
     /**
      * @test
      */
-    public function String_ends_with_invariant_case() {
+    public function String_equals() : void {
 
         // act
-        $result = (new StringEx('FOObAr'))->endsWithInvariantCase('bar');
+        $result = (new StringEx('foobar'))->equals('foobar');
 
         // assert
         static::assertEquals(true, $result);
@@ -36,22 +36,22 @@ class endsWithInvariantCase_Test extends TestCase {
     /**
      * @test
      */
-    public function String_ends_with() {
+    public function String_does_not_equal() : void {
 
         // act
-        $result = (new StringEx('foobar'))->endsWithInvariantCase('bar');
+        $result = (new StringEx('foobar'))->equals('gak');
 
         // assert
-        static::assertEquals(true, $result);
+        static::assertEquals(false, $result);
     }
 
     /**
      * @test
      */
-    public function String_does_not_end_with() {
+    public function String_does_not_equal_case() : void {
 
         // act
-        $result = (new StringEx('foobar'))->endsWithInvariantCase('gak');
+        $result = (new StringEx('foobar'))->equals('FOObar');
 
         // assert
         static::assertEquals(false, $result);

@@ -19,41 +19,17 @@ namespace modethirteen\TypeEx\Tests\StringEx;
 use modethirteen\TypeEx\StringEx;
 use PHPUnit\Framework\TestCase;
 
-class endsWithInvariantCase_Test extends TestCase {
+class encodeBase64_Test extends TestCase  {
 
     /**
      * @test
      */
-    public function String_ends_with_invariant_case() {
+    public function Can_encode() : void {
 
         // act
-        $result = (new StringEx('FOObAr'))->endsWithInvariantCase('bar');
+        $result = (new StringEx('foo bar baz qux'))->encodeBase64();
 
         // assert
-        static::assertEquals(true, $result);
-    }
-
-    /**
-     * @test
-     */
-    public function String_ends_with() {
-
-        // act
-        $result = (new StringEx('foobar'))->endsWithInvariantCase('bar');
-
-        // assert
-        static::assertEquals(true, $result);
-    }
-
-    /**
-     * @test
-     */
-    public function String_does_not_end_with() {
-
-        // act
-        $result = (new StringEx('foobar'))->endsWithInvariantCase('gak');
-
-        // assert
-        static::assertEquals(false, $result);
+        static::assertEquals('Zm9vIGJhciBiYXogcXV4', $result->toString());
     }
 }

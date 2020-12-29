@@ -27,6 +27,18 @@ class startsWithInvariantCase_Test extends TestCase {
     public function String_starts_with() {
 
         // act
+        $result = (new StringEx('FOObAR'))->startsWithInvariantCase('FO');
+
+        // assert
+        static::assertEquals(true, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function String_starts_with_invariant_case() {
+
+        // act
         $result = (new StringEx('FOObAR'))->startsWithInvariantCase('fo');
 
         // assert
