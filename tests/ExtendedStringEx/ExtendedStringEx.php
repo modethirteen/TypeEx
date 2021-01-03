@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace modethirteen\TypeEx;
+namespace modethirteen\TypeEx\Tests\ExtendedStringEx;
 
-/**
- * @deprecated use \modethirteen\TypeEx\StringDictionaryInterface
- * @see https://www.php-fig.org/psr/psr-12/
- */
-interface IStringDictionary extends StringDictionaryInterface {
+use modethirteen\TypeEx\StringEx;
+
+class ExtendedStringEx extends StringEx {
+
+    /**
+     * @var Closure|null
+     */
+    protected static $serializer = null;
 }

@@ -16,9 +16,29 @@
  */
 namespace modethirteen\TypeEx;
 
-/**
- * @deprecated use \modethirteen\TypeEx\StringDictionaryInterface
- * @see https://www.php-fig.org/psr/psr-12/
- */
-interface IStringDictionary extends StringDictionaryInterface {
+use Iterator;
+
+interface DictionaryInterface extends Iterator {
+
+    /**
+     * @param string $key
+     * @return mixed|null
+     */
+    function get(string $key);
+
+    /**
+     * @return string[]
+     */
+    function getKeys() : array;
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    function set(string $key, $value) : void;
+
+    /**
+     * @return array
+     */
+    function toArray() : array;
 }

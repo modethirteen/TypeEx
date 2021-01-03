@@ -86,19 +86,92 @@ StringEx::stringify(true); // 'true'
 StringEx::stringify(false); // 'false'
 StringEx::stringify(123); // '123'
 
-// array values are serialized to comma-separated lists
-StringEx::stringify(['foo', 'bar']); // 'foo,bar'
-StringEx::stringify(['foo', 'plugh', 'bar' => ['baz']]); // 'foo,plugh,baz'
+// array values are serialized to JSON by default...
+StringEx::stringify(['foo', 'bar']); // ["foo","bar"]
+StringEx::stringify(['foo', 'plugh', 'bar' => ['baz']]); // ["foo","plugh","bar": {"baz"}]
+
+// ...however a custom serializer can apply any collection serialization
+StringEx::setSerializer(function($value) {
+
+    // how about a comma separated list?
+    return implode(',', array_map(function($v) : string {
+        return StringEx::stringify($v);
+    }, $value));
+});
+StringEx::stringify(['foo', 'bar'], function($value) {
+
+    // how about a comma separated list?
+    return implode(',', array_map(function($v) : string {
+        return StringEx::stringify($v);
+    }, $value));
+}); // foo,bar
+
+// a default custom serializer can also be set for all subsequent stringify operations
+class MyClass {
+    public function toString() : string {
+        return 'foo';
+    }
+}
+StringEx::setDefaultSerializer(function($value) {
+    return $value instanceof MyClass ? $value->toString() : 'xyzzy';
+});
+StringEx::stringify(new MyClass()); // foo
+StringEx::stringify(['foo', 'bar']); // xyzzy
+
+// more complex collection serialization strategies can also be implemented
+StringEx::setDefaultSerializer(function($value) : string {
+    $xml = '';
+    foreach($value as $item) {
+        $item = StringEx::stringify($item);
+        $xml .= "<value>{$item}</value>";
+    }
+    return "<values>{$xml}</values>";
+});
+StringEx::stringify(['foo', 'bar', 'baz' => ['a', 'b', 'c']]);
+``` 
+
+```xml
+<values>
+    <value>foo</value>
+    <value>bar</value>
+    <value>
+        <values>
+            <value>a</value>
+            <value>b</value>
+            <value>c</value>
+        </values>
+    </value>
+</values>
+```
+
+```php
+// setting the default serializer globally on StringEx may be dangerous if other included projects or components rely on the class
+class ExtendedCustomStringEx extends StringEx {
+
+    /**
+     * Add a static::$serializer to your extended class and late static binding will ensure any
+     * default serializer you set will not affect any components relying directly on StringEx
+     *
+     * @var Closure|null
+     */
+    protected static $serializer = null;
+}
+ExtendedCustomStringEx::setDefaultSerializer(function() {
+    return 'foo';
+});
 
 // the value of anonymous functions are stringified
 StringEx::stringify(function() { return 'foo'; }); // 'foo'
 StringEx::stringify(function() { return 123; }); // '123'
 StringEx::stringify(function() { return ['foo', 'bar']; }); // 'foo,bar'
-StringEx::stringify(function() { return ['foo', 'plugh', 'bar' => ['baz']]; }); // 'foo,plugh,baz'
+StringEx::stringify(function() { return ['foo', 'plugh', 'bar' => ['baz']]; }); // ["foo","plugh","bar": {"baz"}]
 
 // objects, as expected, have __toString called (even objects returned from anonymous functions)
 StringEx::stringify(function() { return new class { function __toString() : string { return 'xyzzy'; }}; }); // 'xyzzy'
 StringEx::stringify(new class { function __toString() : string { return 'qux'; }}); // 'qux'
+
+// if an object does not have a __toString method, the object is serialized to JSON or the output of the custom/default serializer
+StringEx::stringify(new class { public $foo = ['baz', 'qux']; }); // {"foo": ["baz", "qux"]}
 
 // check if a string contains a sub-string value
 (new StringEx('foo bar'))->contains('foo'); // true
@@ -126,7 +199,7 @@ $replacements->set('qux', 'jesse');
 $string = (new StringEx('foo {{bar}} baz {{qux}} plugh xyzzy'))
     ->removePrefix('foo')
     ->trim()
-    ->template($replacements);
+    ->interpolate($replacements);
 
 // trimming and adding ellipsis attempts to break on words    
 $string->ellipsis(20)->toString(); // 'frank baz jesse …'

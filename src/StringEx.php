@@ -22,6 +22,11 @@ use modethirteen\TypeEx\Exception\StringExCannotDecodeBase64StringException;
 class StringEx {
 
     /**
+     * @var Closure|null
+     */
+    protected static $serializer;
+
+    /**
      * @param string|null $string
      * @return bool
      */
@@ -30,12 +35,29 @@ class StringEx {
     }
 
     /**
+     * Use this anonymous function to serialize collections (objects and arrays)
+     *
+     * @param Closure $serializer - <$serializer($value) : string> : custom stringify for collections (objects and arrays)
+     */
+    public static function setDefaultSerializer(Closure $serializer) : void {
+        static::$serializer = $serializer;
+    }
+
+    /**
+     * Reset to default serialization of collections (objects and arrays)
+     */
+    public static function removeDefaultSerializer() : void {
+        static::$serializer = null;
+    }
+
+    /**
      * Convert any value to string
      *
      * @param mixed $value
+     * @param Closure|null $serializer - <$serializer($value) : string> : custom stringify for collections (objects and arrays)
      * @return string
      */
-    public static function stringify($value) : string {
+    public static function stringify($value, ?Closure $serializer = null): string {
         if($value === null) {
             return '';
         }
@@ -46,14 +68,36 @@ class StringEx {
             return $value ? 'true' : 'false';
         }
         if(is_array($value)) {
-            return implode(',', array_map(function($v) : string {
-                return self::stringify($v);
-            }, $value));
+            $func = $serializer ?? static::getDefaultSerializer();
+            return $func($value);
         }
         if($value instanceof Closure) {
             return self::stringify($value());
         }
+        if(is_object($value) && !method_exists($value, '__toString')) {
+            $func = $serializer ?? static::getDefaultSerializer();
+            return $func($value);
+        }
         return strval($value);
+    }
+
+    /**
+     * The default serializer converts arrays into comma separated lists, and objects into native-serialized objects
+     *
+     * @return Closure
+     */
+    private static function getDefaultSerializer() : Closure {
+        if(static::$serializer === null) {
+            static::$serializer = function($value) : string {
+                if(is_array($value)) {
+                    return implode(',', array_map(function($v) : string {
+                        return static::stringify($v);
+                    }, $value));
+                }
+                return serialize($value);
+            };
+        }
+        return static::$serializer;
     }
 
     /**
@@ -202,19 +246,31 @@ class StringEx {
     /**
      * Replace variables surrounded with {{ }}
      *
-     * @param IStringDictionary $replacements - collection of variables to their string values - ex: ['variable' => 'value']
+     * @param StringDictionaryInterface $replacements - collection of variables to their string values - ex: ['variable' => 'value']
      * @return static
      */
-    public function template(IStringDictionary $replacements) : object {
+    public function interpolate(StringDictionaryInterface $replacements) : object {
         $string = $this->string;
-        $keys = $replacements->getKeys();
-        if(empty($keys)) {
+        if(empty($replacements)) {
             return new static($string);
         }
-        $search = array_map(function(string $var) : string {
-            return '{{' . trim($var) . '}}';
-        }, $keys);
-        return new static(str_replace($search, array_values($replacements->toArray()), $string));
+        $variables = [];
+        foreach($replacements as $variable => $value) {
+            $variables['{{' . trim($variable) . '}}'] = $value;
+        }
+        return new static(strtr($string, $variables));
+    }
+
+    /**
+     * Replace variables surrounded with {{ }}
+     *
+     * @param IStringDictionary $replacements - collection of variables to their string values - ex: ['variable' => 'value']
+     * @return static
+     * @deprecated use \modethirteen\TypeEx\StringEx::interpolate
+     * @noinspection PhpDeprecationInspection
+     */
+    public function template(IStringDictionary $replacements) : object {
+        return $this->interpolate($replacements);
     }
 
     /**
