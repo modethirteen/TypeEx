@@ -20,10 +20,7 @@ use modethirteen\TypeEx\StringDictionary;
 use modethirteen\TypeEx\StringEx;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @deprecated use \modethirteen\TypeEx\Tests\StringEx\interpolate_Test
- */
-class template_Test extends TestCase {
+class interpolate_Test extends TestCase {
 
     /**
      * @return array
@@ -57,11 +54,9 @@ class template_Test extends TestCase {
         }
 
         // act
-        /** @noinspection PhpDeprecationInspection */
-        $result = $string->template($dictionary);
+        $result = $string->interpolate($dictionary);
 
         // assert
-        /** @noinspection PhpDeprecationInspection */
         static::assertEquals($expected, $result);
     }
 }

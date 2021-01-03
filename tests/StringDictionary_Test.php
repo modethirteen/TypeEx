@@ -25,7 +25,7 @@ class StringDictionary_Test extends TestCase  {
     /**
      * @return array
      */
-    public static function values_expected_Provider() : array {
+    public static function values_Provider() : array {
         return [
             [['foo' => 'bar']],
             [['foo' => StringEx::stringify(true), 'baz' => 'qux']],
@@ -43,7 +43,7 @@ class StringDictionary_Test extends TestCase  {
     }
 
     /**
-     * @dataProvider values_expected_Provider
+     * @dataProvider values_Provider
      * @test
      * @param array<string, string> $values
      */
